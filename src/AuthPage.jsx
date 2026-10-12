@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './AuthPage.css'
 
-const API = 'http://localhost:8080/api/auth'
+
+const API = 'https://campuscomplaintbackend.onrender.com/api/auth'
 
 function AuthPage({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true)
@@ -65,7 +66,7 @@ function AuthPage({ onLogin }) {
         },
       )
 
-      const data = await response.json()
+      const data = await response.json().catch(() => ({}))
 
       if (!response.ok) {
         throw new Error(

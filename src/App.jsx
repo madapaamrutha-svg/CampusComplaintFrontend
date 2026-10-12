@@ -2,7 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import AuthPage from './AuthPage'
 
-const API = 'http://localhost:8080/api/complaints'
+
+// Complaints endpoint. Change "/api/complaints" if your ComplaintController
+// uses a different @RequestMapping path.
+const API = 'https://campuscomplaintbackend.onrender.com/api/complaints'
 
 const EMPTY_FORM = {
   title: '',
@@ -25,8 +28,10 @@ async function authenticatedFetch(url, options = {}, token) {
     },
   })
 
-  if (response.status === 401) {
-    throw new Error('Your session has expired. Please log in again.')
+  if (response.status === 401 || response.status === 403) {
+    throw new Error(
+      'Your session has expired or you do not have permission. Please log in again.',
+    )
   }
 
   return response
